@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace MovieRentalCompany.Domain.Entities
 {
-    internal class Customer
+    public class Customer
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public bool IsActive { get; set; }
+
+        //Relationship Icollection
+        public ICollection<MovieRental> MovieRentals { get; set; }
     }
 }
