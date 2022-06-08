@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MovieRentalCompany.Domain.Interfaces.Repositories;
+using MovieRentalCompany.Domain.Interfaces.Services;
+using MovieRentalCompany.Domain.Services;
 using MovieRentalCompany.Infrastructure.Database.Context;
+using MovieRentalCompany.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+/* DI repositories */
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
+/* DI services */
+builder.Services.AddScoped<ICustomerServices, CustomerServices>();
+builder.Services.AddScoped<IMovieServices, MovieServices>();
 
 var app = builder.Build();
 
