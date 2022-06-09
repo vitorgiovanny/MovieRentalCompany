@@ -1,4 +1,5 @@
-﻿using MovieRentalCompany.Domain.Entities;
+﻿using MovieRentalCompany.Domain.DTOs;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
@@ -34,14 +35,39 @@ namespace MovieRentalCompany.Domain.Services
             return movieRental.Result;
         }
 
-        public void Update(int id)
+        public DevolutionDTO Devlotuion(int id)
         {
             var rental = _repository.GetById(id).Result;
 
             rental.Devolution = DateTime.UtcNow;
 
+            var devolution = new DevolutionDTO();
+
+            if(rental.Devolution>rental.PrevisionDevolution)
+            {
+                devolution.Late = true;
+            }
+
             _repository.Update(rental);
+
             var save = _repository.Save().Result;
+
+            return devolution;
+        }
+
+        public bool Canceled(int id)
+        {
+            var rental = _repository.GetById(id).Result;
+
+            rental.Canceled = DateTime.UtcNow;
+
+            _repository.Update(rental);
+
+            var save = _repository.Save().Result;
+
+            if (save>0) return true;
+
+            return false;
         }
     }
 }
