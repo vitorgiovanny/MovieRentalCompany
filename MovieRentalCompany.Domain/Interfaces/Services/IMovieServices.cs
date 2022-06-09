@@ -10,5 +10,6 @@ namespace MovieRentalCompany.Domain.Interfaces.Services
     public interface IMovieServices
     {
         Movie RegisterMovie(string name, string category);
+        bool RemoveMovie(int id);
     }
 }

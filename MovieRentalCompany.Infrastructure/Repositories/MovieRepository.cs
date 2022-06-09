@@ -1,4 +1,5 @@
-﻿using MovieRentalCompany.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Infrastructure.Database.Context;
 using System;
@@ -31,6 +32,21 @@ namespace MovieRentalCompany.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
             return movie;
+        }
+
+        public void Update(Movie movie)
+        {
+             _context.Movie.Update(movie);
+        }
+
+        public async Task<int> Save()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Movie> GetById(int id)
+        {
+            return await _context.Movie.FirstOrDefaultAsync(mr => mr.Id == id);
         }
     }
 }

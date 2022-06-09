@@ -22,5 +22,17 @@ namespace MovieRentalCompany.Domain.Services
         {
             return _repository.RegisterMovie(name, category).Result;
         }
+
+        public bool RemoveMovie(int id)
+        {
+            var movie = _repository.GetById(id).Result;
+
+            movie.IsActive = false;
+            movie.IsDeleted = DateTime.UtcNow;
+            _repository.Update(movie);
+            var save = _repository.Save().Result;
+
+            return save>0 ? true : false;
+        }
     }
 }
