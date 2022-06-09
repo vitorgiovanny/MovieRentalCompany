@@ -15,7 +15,11 @@ namespace MovieRentalCompany.Controllers
         {
             _services = services;
         }
-
+        /// <summary>
+        /// Adicionar Cliente
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult RegisterCustomer(NewCustomer customer)
         {

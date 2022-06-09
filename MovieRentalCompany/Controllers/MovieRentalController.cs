@@ -17,6 +17,12 @@ namespace MovieRentalCompany.Controllers
             _services = services;
         }
 
+        /// <summary>
+        /// Locar Filme
+        /// </summary>
+        /// <param name="idCustom"></param>
+        /// <param name="idMovie"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Rental(int idCustom, int idMovie)
         {
@@ -46,6 +52,11 @@ namespace MovieRentalCompany.Controllers
             });
         }
 
+        /// <summary>
+        /// Devolver Filme
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("devolution")]
         public IActionResult Devolution(int id)
@@ -70,6 +81,11 @@ namespace MovieRentalCompany.Controllers
             });
         }
 
+        /// <summary>
+        /// Cancelar Locação
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("canceled")]
         public IActionResult CanceledRental(int id)

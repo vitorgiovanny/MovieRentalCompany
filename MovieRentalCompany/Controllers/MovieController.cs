@@ -17,6 +17,11 @@ namespace MovieRentalCompany.Controllers
             _services = services;
         }
 
+        /// <summary>
+        /// Adicionar novo filme
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult RegisterMovie(NewMovie model)
         {
@@ -31,6 +36,11 @@ namespace MovieRentalCompany.Controllers
                 });
         }
         
+        /// <summary>
+        /// Remover filme
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("remove")]
         public IActionResult Remover(int id)
