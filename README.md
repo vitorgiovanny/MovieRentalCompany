@@ -1,4 +1,4 @@
-# MovieRentalCompany
+# MovieRentalCompany - Locadora
 
 
 ### Entidades
