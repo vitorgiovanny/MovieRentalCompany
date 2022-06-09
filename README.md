@@ -2,6 +2,6 @@
 
 
 ### Entidades
-- Client(Cliente)
+- Customer(Cliente)
 - Movie(Filme)
 - MovieRental(Locacao)
