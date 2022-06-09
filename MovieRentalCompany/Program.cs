@@ -18,10 +18,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 /* DI repositories */
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IMovieRentalRepository, MovieRentalRepository>();
 
 /* DI services */
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
+builder.Services.AddScoped<IMovieRentalServices, MovieRentalServices>();
 
 var app = builder.Build();
 
