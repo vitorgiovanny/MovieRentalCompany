@@ -13,6 +13,7 @@ namespace MovieRentalCompany.Infrastructure.Database.Mapping
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
+            builder.ToTable("Customer");
             builder.HasIndex(c => c.Id);
         }
     }
