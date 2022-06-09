@@ -12,7 +12,7 @@ namespace MovieRentalCompany.Infrastructure.Database.Context
     {
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Movie> Movie { get; set; }
-        public DbSet<MovieRental> MovieRentals { get; set; }
+        public DbSet<MovieRental> MovieRental { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
