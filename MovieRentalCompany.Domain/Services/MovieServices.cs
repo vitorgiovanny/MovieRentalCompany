@@ -12,10 +12,12 @@ namespace MovieRentalCompany.Domain.Services
     public class MovieServices : IMovieServices
     {
         private readonly IMovieRepository _repository;
+        private readonly IMovieRentalRepository _repositoryMovieRental;
 
-        public MovieServices(IMovieRepository repository)
+        public MovieServices(IMovieRepository repository, IMovieRentalRepository repositoryyMovieRental)
         {
             _repository = repository;
+            _repositoryMovieRental = repositoryyMovieRental;
         }
 
         public Movie RegisterMovie(string name, string category)
@@ -25,6 +27,13 @@ namespace MovieRentalCompany.Domain.Services
 
         public bool RemoveMovie(int id)
         {
+            var searchmovie = _repositoryMovieRental.GetByIdMovie(id).Result.Select(p => p.Devolution == null).ToList();
+
+            if(searchmovie.Count>0)
+            {
+                return false;
+            }
+
             var movie = _repository.GetById(id).Result;
 
             movie.IsActive = false;

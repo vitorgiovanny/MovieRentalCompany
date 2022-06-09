@@ -51,7 +51,7 @@ namespace MovieRentalCompany.Controllers
                 {
                     Type = ResponseMessageJson.Error,
                     Code = ResponseCodes.MovieRemovedError,
-                    Description = "Houve um erro ao remover, contate o suporte."
+                    Description = "Esse filme está alugado, aguarde o retorno para remover."
                 });
         }
     }
