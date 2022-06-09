@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MovieRentalCompany.Domain.Interfaces.Services
 {
-    public interface ICustomerServices
+    public interface IMovieRentalServices
     {
-        bool Register(string name, string lastname, string email);
-        Customer GetByEmail(string email);
+        MovieRental Register(int id_Customer, int id_Movie);
+        void Update(int id);
     }
 }

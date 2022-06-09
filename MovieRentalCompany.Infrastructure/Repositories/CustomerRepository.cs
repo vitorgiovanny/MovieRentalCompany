@@ -1,4 +1,5 @@
-﻿using MovieRentalCompany.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Infrastructure.Database.Context;
 using System;
@@ -17,9 +18,10 @@ namespace MovieRentalCompany.Infrastructure.Repositories
         {
             _context = context;
         }
+
         public async Task<Customer> Register(string name, string lastname, string email)
         {
-            var customer = new Customer
+            var customers = new Customer
             {
                 Name = name,
                 LastName = lastname,
@@ -27,10 +29,35 @@ namespace MovieRentalCompany.Infrastructure.Repositories
                 IsActive = true,
             };
 
-            await _context.AddAsync(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Customer.AddAsync(customers);
 
-            return customer;
+            }
+            catch (Exception ex)
+            {
+                var message = ex;
+            }
+
+            return customers;
+        }
+
+        public async Task<Customer> GetByEmail(string email)
+        {
+            return await _context.Customer.AsNoTracking().FirstOrDefaultAsync(p => p.Email == email);
+        }
+
+        public async Task<int> Save()
+        {
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var message = ex;
+                return 0;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MovieRentalCompany.Domain.Interfaces.Repositories;
+﻿using MovieRentalCompany.Domain.Entities;
+using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,17 @@ namespace MovieRentalCompany.Domain.Services
         {
             _repository = repository;
         }
-
+        
+        public Customer GetByEmail(string email)
+        {
+            return _repository.GetByEmail(email).Result;
+        }
 
         public bool Register(string name, string lastname, string email)
         {
-            var customer = _repository.Register(name, lastname, email);
+            var customer = _repository.Register(name, lastname, email).Result;
+            var save = _repository.Save().Result;
+
 
             if (customer != null) return true;
 

@@ -27,15 +27,8 @@ namespace MovieRentalCompany.Infrastructure.Repositories
                 IsActive = true
             };
 
-            try
-            {
-                await _context.Movie.AddAsync(movie);
-                await _context.SaveChangesAsync();
-            }
-            catch(Exception ex)
-            {
-                var message = ex;
-            }
+            await _context.Movie.AddAsync(movie);
+            await _context.SaveChangesAsync();
 
             return movie;
         }

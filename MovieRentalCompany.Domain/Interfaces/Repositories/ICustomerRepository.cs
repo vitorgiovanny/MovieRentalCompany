@@ -10,5 +10,7 @@ namespace MovieRentalCompany.Domain.Interfaces.Repositories
     public interface ICustomerRepository
     {
         Task<Customer> Register(string name, string lastname, string email);
+        Task<Customer> GetByEmail(string email);
+        Task<int> Save();
     }
 }
