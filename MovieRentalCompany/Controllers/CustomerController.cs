@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieRentalCompany.Domain.Interfaces.Services;
+using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
 
 namespace MovieRentalCompany.Controllers
@@ -22,10 +23,23 @@ namespace MovieRentalCompany.Controllers
 
             if(searchEmail == null)
             {
-                return Ok(_services.Register(customer.Name, customer.LasName, customer.Email));
+                var register = _services.Register(customer.Name, customer.LasName, customer.Email);
+
+                return Ok(new ResponseMessageJson
+                {
+                    Type = ResponseMessageJson.Success,
+                    Code = ResponseCodes.CustomerSuccess,
+                    Description = "Bem vindo, registrado com sucesso."
+                });
+
             }
 
-            return null;
+            return BadRequest(new ResponseMessageJson
+            {
+                Type = ResponseMessageJson.Error,
+                Code = ResponseCodes.CustomerError,
+                Description = "Esse usuario já tem cadastro aqui"
+            });
         }
     }
 }
