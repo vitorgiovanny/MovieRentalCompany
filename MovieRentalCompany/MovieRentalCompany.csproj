@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MovieRentalCompany.Infrastructure\MovieRentalCompany.Infrastructure.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
 </Project>
