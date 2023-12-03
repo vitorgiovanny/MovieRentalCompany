@@ -1,6 +1,5 @@
 ﻿using MovieRentalCompany.Domain.DTOs;
 using MovieRentalCompany.Domain.Entities;
-using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using System;
@@ -13,16 +12,16 @@ namespace MovieRentalCompany.Domain.Services
 {
     public class MovieRentalServices : IMovieRentalServices
     {
-        private readonly IMovieRentalRepository _repository;
+        private readonly IRepository<MovieRental> _repository;
 
-        public MovieRentalServices(IMovieRentalRepository repository)
+        public MovieRentalServices(IRepository<MovieRental> repository)
         {
             _repository = repository;
         }
 
         public MovieRental Register(int id_Customer, int id_Movie)
         {
-
+            /*
             var selectedAvailable = _repository.GetByIdMovie(id_Movie).Result.Select(sm => sm.Devolution == null).ToList();
 
             if(selectedAvailable != null && selectedAvailable.Any()) return null;
@@ -31,12 +30,13 @@ namespace MovieRentalCompany.Domain.Services
 
             var movieRental = _repository.Register(id_Customer, id_Movie, previsionReturn.PrevisionDevolution);
             var save = _repository.Save().Result;
-
-            return movieRental.Result;
+            */
+            return null;
         }
 
         public DevolutionDTO Devlotuion(int id)
         {
+            /*
             var rental = _repository.GetById(id).Result;
 
             rental.Devolution = DateTime.UtcNow;
@@ -51,23 +51,19 @@ namespace MovieRentalCompany.Domain.Services
             _repository.Update(rental);
 
             var save = _repository.Save().Result;
-
-            return devolution;
+            */
+            return null;
         }
 
         public bool Canceled(int id)
         {
-            var rental = _repository.GetById(id).Result;
+            var rental = _repository.GetById(id);
 
             rental.Canceled = DateTime.UtcNow;
 
             _repository.Update(rental);
 
-            var save = _repository.Save().Result;
-
-            if (save>0) return true;
-
-            return false;
+            return true;
         }
     }
 }
