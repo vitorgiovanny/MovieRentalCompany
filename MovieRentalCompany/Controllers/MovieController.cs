@@ -64,5 +64,10 @@ namespace MovieRentalCompany.Controllers
                     Description = "Esse filme está alugado, aguarde o retorno para remover."
                 });
         }
+
+        public IActionResult ListMovie()
+        {
+            return null;
+        }
     }
 }
