@@ -17,10 +17,9 @@ namespace MovieRentalCompany.Services.Service
 
         public CustomerServices(IRepository<Customer> repository) => _repository = repository;
 
-        public Customer GetByEmail(string email)
-        {
-            return _repository.GetByCondition(customers => customers.Email == email)?.FirstOrDefault();
-        }
+        public Customer GetByEmail(string email) =>
+            _repository.GetByCondition(customers => customers.Email == email)?.FirstOrDefault();
+        
 
         public bool Register(string name, string lastname, string email)
         {
