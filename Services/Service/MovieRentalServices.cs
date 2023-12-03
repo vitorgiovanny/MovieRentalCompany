@@ -36,9 +36,10 @@ namespace MovieRentalCompany.Domain.Services
 
         public DevolutionDTO Devlotuion(int id)
         {
-            /*
-            var rental = _repository.GetById(id).Result;
+            
+            var MovieRental = _repository.GetById(id);
 
+            /*
             rental.Devolution = DateTime.UtcNow;
 
             var devolution = new DevolutionDTO();
