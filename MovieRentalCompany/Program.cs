@@ -22,9 +22,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 /* DI services */
 
-builder.Services.AddScoped<ICustomerServices, CustomerServices>();
-builder.Services.AddScoped< IServices<Movie>, MovieServices >();
-builder.Services.AddScoped<IMovieRentalServices, MovieRentalServices>();
+builder.Services.AddScoped<IServices<Customer>, CustomerServices>();
+builder.Services.AddScoped<IServices<Movie>, MovieServices >();
+builder.Services.AddScoped<IServices<MovieRentalCompany>, MovieRentalServices>();
 
 var app = builder.Build();
 

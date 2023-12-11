@@ -31,9 +31,6 @@ namespace MovieRentalCompany.Domain.Services
         public List<object> GetAll(Expression<Func<Movie, bool>> condition)
         {
             if(condition == null) return (List<object>)_repository.GetAll();
-
-            //Expression<Func<Movie, bool>> expression = (Expression<Func<Movie, bool>>)condition.Body;
-
             return (List<object>)_repository.GetByCondition(condition);
         }
 

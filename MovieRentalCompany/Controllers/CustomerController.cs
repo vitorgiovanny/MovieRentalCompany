@@ -27,11 +27,11 @@ namespace MovieRentalCompany.Controllers
         [HttpPost]
         public IActionResult RegisterCustomer(NewCustomer customer)
         {
-            //var searchEmail = _services.GetByEmail(customer.Email);
+            var searchEmail = _services.GetAll(email => email.Email == customer.Email).FirstOrDefault();
 
-            if(null == null)
+            if(searchEmail == null)
             {
-                //_services.Add(new { Name = customer.Name, LastName = customer.LasName, Email = customer.Email });
+                _services.Add(new Customer { Name = customer.Name, LastName = customer.LasName, Email = customer.Email });
 
                 return Ok(new ResponseMessageJson
                 {
