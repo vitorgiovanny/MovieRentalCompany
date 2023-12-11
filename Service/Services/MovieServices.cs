@@ -5,11 +5,12 @@ using MovieRentalCompany.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 namespace MovieRentalCompany.Domain.Services
 {
-    public class MovieServices : IMovieServices
+    public class MovieServices : IServices<Movie>
     {
         private readonly IRepository<Movie> _repository;
 
@@ -18,28 +19,44 @@ namespace MovieRentalCompany.Domain.Services
             _repository = repository;
         }
 
-        public Movie RegisterMovie(string name, string category)
+        public void Add(Object entity)
         {
-            _repository.Add(new Movie { Name = name, Category = category });
+            if (entity == null) return;
 
-            return null;
+            var movie = entity as Movie;
+
+            var result = RegisterMovie(movie.Name, movie.Category);
         }
 
-        public bool RemoveMovie(int id)
+        public List<object> GetAll(Expression<Func<Movie, bool>> condition)
         {
-            //var searchmovie = _repositoryMovieRental
-            //  .GetByIdMovie(id).Result.Select(p => p.Devolution == null).ToList();
+            if(condition == null) return (List<object>)_repository.GetAll();
 
+            //Expression<Func<Movie, bool>> expression = (Expression<Func<Movie, bool>>)condition.Body;
 
+            return (List<object>)_repository.GetByCondition(condition);
+        }
 
-            //var movie = _repository.GetById(id).Result;
+        Movie IServices<Movie>.GetById(int id) => _repository.GetById(id);
 
-            //movie.IsActive = false;
-            //movie.IsDeleted = DateTime.UtcNow;
-            //_repository.Update(movie);
-            //var save = _repository.Save().Result;
-            return false;
-            //return save>0 ? true : false;
+        public Movie RegisterMovie(string name, string category)
+        {
+            if (name == null || category == null) return null;
+            _repository.Add(new Movie { Name = name, Category = category });
+
+            return new Movie { Name = name, Category = category};
+        }
+
+        public void Remove(int id)
+        {
+            var entity = _repository.GetById(id);
+
+            if (entity == null) return;
+
+            entity.IsDeleted = DateTime.UtcNow;
+            entity.IsActive = false;
+
+            _repository.Update(entity);
         }
     }
 }

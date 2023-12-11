@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Services;
@@ -20,8 +21,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 /* DI services */
+
 builder.Services.AddScoped<ICustomerServices, CustomerServices>();
-builder.Services.AddScoped<IMovieServices, MovieServices>();
+builder.Services.AddScoped< IServices<Movie>, MovieServices >();
 builder.Services.AddScoped<IMovieRentalServices, MovieRentalServices>();
 
 var app = builder.Build();
