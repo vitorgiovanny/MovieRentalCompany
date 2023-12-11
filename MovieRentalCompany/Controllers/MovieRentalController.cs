@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
@@ -7,12 +8,12 @@ namespace MovieRentalCompany.Controllers
 {
     [ApiController]
     [Route("RentMovie")]
-    public class MovieRentalController : ControllerBase
+    public class MovieRentalController : VideoRentalStoreGenericController<MovieRental, IServices<MovieRental>>
     {
 
-        private readonly IMovieRentalServices _services;
+        private readonly IServices<MovieRental> _services;
 
-        public MovieRentalController(IMovieRentalServices services)
+        public MovieRentalController(IServices<MovieRental> services) : base(services) 
         {
             _services = services;
         }
@@ -26,10 +27,11 @@ namespace MovieRentalCompany.Controllers
         [HttpPost]
         public IActionResult Rental(int idCustom, int idMovie)
         {
-            var rental = _services.Register(idCustom, idMovie);
+            
 
-            if(rental == null)
+            if(idCustom>0 && idMovie>0)
             {
+                _services.Add(new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie });
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,

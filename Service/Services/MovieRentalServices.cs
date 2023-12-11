@@ -4,9 +4,11 @@ using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Infrastructure.Repositories;
 using System;
+using System.Linq.Expressions;
+
 namespace MovieRentalCompany.Domain.Services
 {
-    public class MovieRentalServices : IMovieRentalServices
+    public class MovieRentalServices : IServices<MovieRental>
     {
         private readonly IRepository<MovieRental> _repository;
 
@@ -36,6 +38,26 @@ namespace MovieRentalCompany.Domain.Services
             _repository.Update(rental);
 
             return true;
+        }
+
+        public void Add(object entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<object> GetAll(Expression<Func<MovieRental, bool>> condition)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MovieRental GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
