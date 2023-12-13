@@ -13,5 +13,6 @@ namespace MovieRentalCompany.Domain.Interfaces.Services
         void Remove(int id);
         List<object> GetAll(Expression<Func<T, bool>> condition);
         T GetById(int id);
+        void Update(T entity);
     }
 }

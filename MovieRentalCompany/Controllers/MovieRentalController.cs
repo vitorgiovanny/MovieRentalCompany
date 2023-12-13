@@ -63,23 +63,16 @@ namespace MovieRentalCompany.Controllers
         [Route("devolution")]
         public IActionResult Devolution(int id)
         {
-            var dto = _services.Devlotuion(id);
+            var movieStore = _services.GetById(id);
 
-            if(dto.Late == true)
-            {
-                return Ok(new ResponseMessageJson
-                {
-                    Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieLate,
-                    Description = "O Filme está Atrasado, pode haver multas"
-                });
-            }
+            movieStore.Devolution = DateTime.UtcNow;
+            _services.Update(movieStore);
 
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
                 Code = ResponseCodes.MovieDevolutionSuccess,
-                Description = "Obrigado, volte sempre."
+                Description = movieStore.PrevisionDevolution < movieStore.Devolution ? "Obrigado, volte sempre." : "Filme Alocado Atrasado, sera gerado Multa"
             });
         }
 

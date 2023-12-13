@@ -55,5 +55,8 @@ namespace MovieRentalCompany.Domain.Services
 
             _repository.Update(entity);
         }
+
+        public void Update(Movie entity)
+            => _repository.Update(entity);
     }
 }

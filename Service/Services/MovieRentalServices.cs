@@ -17,18 +17,6 @@ namespace MovieRentalCompany.Domain.Services
             _repository = repository;
         }
 
-        public MovieRental Register(int id_Customer, int id_Movie)
-        {
-  
-            return null;
-        }
-
-        public DevolutionDTO Devlotuion(int id)
-        {
-
-            return null;
-        }
-
         public bool Canceled(int id)
         {
             var rental = _repository.GetById(id);
@@ -41,23 +29,29 @@ namespace MovieRentalCompany.Domain.Services
         }
 
         public void Add(object entity)
-        {
-            throw new NotImplementedException();
-        }
+            => _repository.Add((MovieRental)entity);
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            var movieStore = this.GetById(id);
+
+            if (movieStore != null)
+            {
+                movieStore.Canceled = DateTime.UtcNow;
+                _repository.Update(movieStore);
+            }
         }
 
         public List<object> GetAll(Expression<Func<MovieRental, bool>> condition)
         {
-            throw new NotImplementedException();
+            if (condition == null) return (List<object>)_repository.GetAll();
+            return (List<object>)_repository.GetByCondition(condition);
         }
 
         public MovieRental GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            => _repository.GetById(id);
+
+        public void Update(MovieRental entity)
+            => _repository.Update(entity);
     }
 }

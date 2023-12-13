@@ -44,5 +44,8 @@ namespace MovieRentalCompany.Services.Service
             customer.IsActive = false;
             _repository.Update(customer);
         }
+
+        public void Update(Customer entity)
+            => _repository.Update(entity);
     }
 }
