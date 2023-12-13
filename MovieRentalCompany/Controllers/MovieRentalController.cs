@@ -85,23 +85,13 @@ namespace MovieRentalCompany.Controllers
         [Route("canceled")]
         public IActionResult CanceledRental(int id)
         {
-            var canceled = _services.Canceled(id);
+            _services.Remove(id);
 
-            if(canceled)
-            {
-                return Ok(new ResponseMessageJson
-                {
-                    Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieRentalCanceledSuccess,
-                    Description = "Filme cancelado"
-                });
-            }
-
-            return BadRequest(new ResponseMessageJson
-            {
-                Type = ResponseMessageJson.Error,
-                Code = ResponseCodes.MovieRentalCanceledError,
-                Description = "Houve ume erro, entre em contato com support"
+           return Ok(new ResponseMessageJson
+           {
+                Type = ResponseMessageJson.Success,
+                Code = ResponseCodes.MovieRentalCanceledSuccess,
+                Description = "Filme cancelado"
             });
         }
     }
