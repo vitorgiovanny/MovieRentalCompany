@@ -61,7 +61,15 @@ namespace MovieRentalCompany.Controllers
         public IActionResult Remover(int id)
         {
             var movie = _services.GetById(id);
-            if(movie.IsDeleted.HasValue || movie.MovieRentals.Any(t => t.Devolution == null)) 
+
+            if(movie is null) return BadRequest(new ResponseMessageJson
+            {
+                Type = ResponseMessageJson.Error,
+                Code = ResponseCodes.MovieRemovedError,
+                Description = "Esse filme nao existe"
+            });
+
+            if (movie.IsDeleted.HasValue || movie.MovieRentals.Any(t => t.Devolution == null)) 
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
