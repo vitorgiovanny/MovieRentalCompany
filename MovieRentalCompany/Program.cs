@@ -24,7 +24,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IServices<Customer>, CustomerServices>();
 builder.Services.AddScoped<IServices<Movie>, MovieServices >();
-builder.Services.AddScoped<IServices<MovieRentalCompany>, MovieRentalServices>();
+builder.Services.AddScoped<IServices<MovieRental>, MovieRentalServices>();
 
 var app = builder.Build();
 
