@@ -17,17 +17,6 @@ namespace MovieRentalCompany.Domain.Services
             _repository = repository;
         }
 
-        public bool Canceled(int id)
-        {
-            var rental = _repository.GetById(id);
-
-            rental.Canceled = DateTime.UtcNow;
-
-            _repository.Update(rental);
-
-            return true;
-        }
-
         public void Add(object entity)
             => _repository.Add((MovieRental)entity);
 
