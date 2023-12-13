@@ -26,8 +26,12 @@ namespace MovieRentalCompany.Services.Service
 
         public List<object> GetAll(Expression<Func<Customer, bool>> condition)
         {
-            if (condition == null) return (List<object>)_repository.GetAll();
-            return (List<object>)_repository.GetByCondition(condition);
+            if (condition == null) return new List<object>() { _repository.GetAll() };
+
+            var result = _repository.GetByCondition(condition)
+                .Select(c => new { c });
+
+            return result.Count() > 0 ? new List<object>() { result } : null;
         }
 
         public Customer GetByEmail(string email) =>

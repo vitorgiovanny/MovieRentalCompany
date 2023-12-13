@@ -44,8 +44,12 @@ namespace MovieRentalCompany.Domain.Services
 
         public List<object> GetAll(Expression<Func<MovieRental, bool>> condition)
         {
-            if (condition == null) return (List<object>)_repository.GetAll();
-            return (List<object>)_repository.GetByCondition(condition);
+            if (condition == null) return new List<object>() { _repository.GetAll() };
+
+            var result = _repository.GetByCondition(condition)
+                .Select(c => new { c });
+
+            return result.Count() > 0 ? new List<object>() { result } : null;
         }
 
         public MovieRental GetById(int id)
