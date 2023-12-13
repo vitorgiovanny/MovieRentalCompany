@@ -28,10 +28,8 @@ namespace MovieRentalCompany.Controllers
         public IActionResult Rental(int idCustom, int idMovie)
         {
             
-
-            if(idCustom>0 && idMovie>0)
+            if(idCustom==0 && idMovie==0)
             {
-                _services.Add(new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie });
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
@@ -40,17 +38,19 @@ namespace MovieRentalCompany.Controllers
                 });
             }
 
-            var response = new MovieRentalViewModel
-            {
-                ReturnMovie = rental.PrevisionDevolution
-            };
+            var movieRentalStore = new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie };
+
+            _services.Add(movieRentalStore);
 
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
                 Code = ResponseCodes.MovieRented,
                 Description = "O Filme Locado",
-                Parameters = response
+                Parameters = new MovieRentalViewModel
+                {
+                    ReturnMovie = movieRentalStore.PrevisionDevolution
+                }
             });
         }
 

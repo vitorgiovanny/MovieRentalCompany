@@ -22,4 +22,8 @@
     <ProjectReference Include="..\MovieRentalCompany\MovieRentalCompany.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Traits\" />
+  </ItemGroup>
+
 </Project>
