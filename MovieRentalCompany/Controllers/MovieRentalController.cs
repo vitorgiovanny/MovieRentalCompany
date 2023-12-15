@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieRentalCompany.Domain.Entities;
+using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
@@ -7,14 +9,16 @@ namespace MovieRentalCompany.Controllers
 {
     [ApiController]
     [Route("RentMovie")]
-    public class MovieRentalController : ControllerBase
+    public class MovieRentalController : VideoRentalStoreGenericController<MovieRental, IServices<MovieRental>>
     {
 
-        private readonly IMovieRentalServices _services;
+        private readonly IServices<MovieRental> _services;
+        private readonly IServices<Movie> _servicesMovie;
 
-        public MovieRentalController(IMovieRentalServices services)
+        public MovieRentalController(IServices<MovieRental> services, IServices<Movie> servicesOne) : base(services) 
         {
             _services = services;
+            _servicesMovie = servicesOne;
         }
 
         /// <summary>
@@ -26,9 +30,8 @@ namespace MovieRentalCompany.Controllers
         [HttpPost]
         public IActionResult Rental(int idCustom, int idMovie)
         {
-            var rental = _services.Register(idCustom, idMovie);
-
-            if(rental == null)
+            
+            if(idCustom==0 && idMovie==0)
             {
                 return BadRequest(new ResponseMessageJson
                 {
@@ -38,17 +41,29 @@ namespace MovieRentalCompany.Controllers
                 });
             }
 
-            var response = new MovieRentalViewModel
+            if (_servicesMovie.GetById(idMovie)?.IsDeleted != null)
             {
-                ReturnMovie = rental.PrevisionDevolution
-            };
+                return BadRequest(new ResponseMessageJson
+                {
+                    Type = ResponseMessageJson.Error,
+                    Code = ResponseCodes.MovieIsAlreadyRented,
+                    Description = "O Filme já está removido"
+                });
+            }
+
+            var movieRentalStore = new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie, Creater = DateTime.UtcNow, PrevisionDevolution = new ReturnMovie(DateTime.UtcNow).PrevisionDevolution };
+
+            _services.Add(movieRentalStore);
 
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
                 Code = ResponseCodes.MovieRented,
                 Description = "O Filme Locado",
-                Parameters = response
+                Parameters = new MovieRentalViewModel
+                {
+                    ReturnMovie = movieRentalStore.PrevisionDevolution
+                }
             });
         }
 
@@ -61,23 +76,16 @@ namespace MovieRentalCompany.Controllers
         [Route("devolution")]
         public IActionResult Devolution(int id)
         {
-            var dto = _services.Devlotuion(id);
+            var movieStore = _services.GetById(id);
 
-            if(dto.Late == true)
-            {
-                return Ok(new ResponseMessageJson
-                {
-                    Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieLate,
-                    Description = "O Filme está Atrasado, pode haver multas"
-                });
-            }
+            movieStore.Devolution = DateTime.UtcNow;
+            _services.Update(movieStore);
 
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
                 Code = ResponseCodes.MovieDevolutionSuccess,
-                Description = "Obrigado, volte sempre."
+                Description = movieStore.PrevisionDevolution < movieStore.Devolution ? "Obrigado, volte sempre." : "Filme Alocado Atrasado, sera gerado Multa"
             });
         }
 
@@ -90,23 +98,13 @@ namespace MovieRentalCompany.Controllers
         [Route("canceled")]
         public IActionResult CanceledRental(int id)
         {
-            var canceled = _services.Canceled(id);
+            _services.Remove(id);
 
-            if(canceled)
-            {
-                return Ok(new ResponseMessageJson
-                {
-                    Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieRentalCanceledSuccess,
-                    Description = "Filme cancelado"
-                });
-            }
-
-            return BadRequest(new ResponseMessageJson
-            {
-                Type = ResponseMessageJson.Error,
-                Code = ResponseCodes.MovieRentalCanceledError,
-                Description = "Houve ume erro, entre em contato com support"
+           return Ok(new ResponseMessageJson
+           {
+                Type = ResponseMessageJson.Success,
+                Code = ResponseCodes.MovieRentalCanceledSuccess,
+                Description = "Filme cancelado"
             });
         }
     }

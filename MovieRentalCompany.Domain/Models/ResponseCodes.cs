@@ -19,5 +19,6 @@ namespace MovieRentalCompany.Domain.Models
         public const string MovieAddSuccess = "09";
         public const string MovieRemovedSuccess = "10";
         public const string MovieRemovedError = "11";
+        public const string MovieErro = "12";
     }
 }

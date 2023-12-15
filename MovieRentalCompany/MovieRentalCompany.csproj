@@ -18,10 +18,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MovieRentalCompany.Infrastructure\MovieRentalCompany.Infrastructure.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
 </Project>

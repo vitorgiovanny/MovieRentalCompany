@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Services;
 using MovieRentalCompany.Infrastructure.Database.Context;
 using MovieRentalCompany.Infrastructure.Repositories;
+using MovieRentalCompany.Services.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +18,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 /* DI repositories */
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-builder.Services.AddScoped<IMovieRentalRepository, MovieRentalRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 /* DI services */
-builder.Services.AddScoped<ICustomerServices, CustomerServices>();
-builder.Services.AddScoped<IMovieServices, MovieServices>();
-builder.Services.AddScoped<IMovieRentalServices, MovieRentalServices>();
+
+builder.Services.AddScoped<IServices<Customer>, CustomerServices>();
+builder.Services.AddScoped<IServices<Movie>, MovieServices >();
+builder.Services.AddScoped<IServices<MovieRental>, MovieRentalServices>();
 
 var app = builder.Build();
 
