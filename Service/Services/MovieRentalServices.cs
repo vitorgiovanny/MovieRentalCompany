@@ -33,12 +33,18 @@ namespace MovieRentalCompany.Domain.Services
 
         public List<object> GetAll(Expression<Func<MovieRental, bool>> condition)
         {
-            if (condition == null) return new List<object>() { _repository.GetAll() };
+            List<object> listResponse = new List<object>();
 
-            var result = _repository.GetByCondition(condition)
-                .Select(c => new { c });
+            var response = _repository.GetAll().ToList();
+            listResponse.AddRange(response);
 
-            return result.Count() > 0 ? new List<object>() { result } : null;
+            //Refatorar o codigo
+            if (condition == null) return listResponse;
+
+            var result = new List<object>();
+            result.AddRange(_repository.GetByCondition(condition));
+
+            return result;
         }
 
         public MovieRental GetById(int id)
@@ -46,5 +52,7 @@ namespace MovieRentalCompany.Domain.Services
 
         public void Update(MovieRental entity)
             => _repository.Update(entity);
+
+        public List<MovieRental> GetAll() => (List<MovieRental>)_repository.GetAll();
     }
 }

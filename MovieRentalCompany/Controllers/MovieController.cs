@@ -3,6 +3,8 @@ using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieRentalCompany.Controllers
 {
@@ -11,9 +13,12 @@ namespace MovieRentalCompany.Controllers
     public class MovieController : VideoRentalStoreGenericController<Movie,IServices<Movie>>
     {
         private readonly IServices<Movie> _services;
-
-        public MovieController(IServices<Movie> services) : base(services)
-        { _services = services; }
+        private readonly IServices<MovieRental> _servicesRentalStoreMovie;
+        public MovieController(IServices<Movie> services, IServices<MovieRental> storeMovie) : base(services)
+        { 
+            _services = services; 
+            _servicesRentalStoreMovie = storeMovie;
+        }
 
         /// <summary>
         /// Adicionar novo filme
@@ -61,20 +66,23 @@ namespace MovieRentalCompany.Controllers
         public IActionResult Remover(int id)
         {
             var movie = _services.GetById(id);
+            var storeMovieRentals = _servicesRentalStoreMovie.GetAll(filme => filme.Id_Movie == id).ToList()
+                .OfType<MovieRental>()
+                .ToList();
 
-            if(movie is null) return BadRequest(new ResponseMessageJson
+            if (movie is null) return BadRequest(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Error,
                 Code = ResponseCodes.MovieRemovedError,
                 Description = "Esse filme nao existe"
             });
 
-            if (movie.IsDeleted.HasValue || movie.MovieRentals.Any(t => t.Devolution == null)) 
+            if (movie.IsDeleted.HasValue || storeMovieRentals.Any(t => t.Devolution == null))
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
                     Code = ResponseCodes.MovieRemovedError,
-                    Description = "Esse filme ja foi deletado ou alugado"
+                    Description = $"Esse filme ja foi {(movie.IsDeleted.HasValue ? "deletado" : "alugado")}"
                 });
 
             _services.Remove(id);

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+
 namespace MovieRentalCompany.Domain.Services
 {
     public class MovieServices : IServices<Movie>
@@ -28,14 +30,26 @@ namespace MovieRentalCompany.Domain.Services
             var result = RegisterMovie(movie.Name, movie.Category);
         }
 
+
+        /// <summary>
+        /// Get dates by Expression
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public List<object> GetAll(Expression<Func<Movie, bool>> condition)
         {
-            if (condition == null) return new List<object>() { _repository.GetAll() };
+            List<object> listResponse = new List<object>();
 
-            var result = _repository.GetByCondition(condition)
-                .Select(c => new { c });
+            var response = _repository.GetAll().ToList();
+            listResponse.AddRange(response);
 
-            return result.Count() > 0 ? new List<object>() { result } : null;
+            //Refatorar o codigo
+            if (condition == null) return listResponse;
+
+            var result = new List<object>();
+            result.AddRange(_repository.GetByCondition(condition));
+
+            return result;
         }
 
         Movie IServices<Movie>.GetById(int id) => _repository.GetById(id);
@@ -62,5 +76,8 @@ namespace MovieRentalCompany.Domain.Services
 
         public void Update(Movie entity)
             => _repository.Update(entity);
+
+        public List<Movie> GetAll()
+            => (List<Movie>)_repository.GetAll();
     }
 }

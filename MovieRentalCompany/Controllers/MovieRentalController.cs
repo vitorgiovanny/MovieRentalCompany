@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieRentalCompany.Domain.Entities;
+using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
@@ -12,10 +13,12 @@ namespace MovieRentalCompany.Controllers
     {
 
         private readonly IServices<MovieRental> _services;
+        private readonly IServices<Movie> _servicesMovie;
 
-        public MovieRentalController(IServices<MovieRental> services) : base(services) 
+        public MovieRentalController(IServices<MovieRental> services, IServices<Movie> servicesOne) : base(services) 
         {
             _services = services;
+            _servicesMovie = servicesOne;
         }
 
         /// <summary>
@@ -38,7 +41,17 @@ namespace MovieRentalCompany.Controllers
                 });
             }
 
-            var movieRentalStore = new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie };
+            if (_servicesMovie.GetById(idMovie)?.IsDeleted != null)
+            {
+                return BadRequest(new ResponseMessageJson
+                {
+                    Type = ResponseMessageJson.Error,
+                    Code = ResponseCodes.MovieIsAlreadyRented,
+                    Description = "O Filme já está removido"
+                });
+            }
+
+            var movieRentalStore = new MovieRental { Id_Customer = idCustom, Id_Movie = idMovie, Creater = DateTime.UtcNow, PrevisionDevolution = new ReturnMovie(DateTime.UtcNow).PrevisionDevolution };
 
             _services.Add(movieRentalStore);
 
