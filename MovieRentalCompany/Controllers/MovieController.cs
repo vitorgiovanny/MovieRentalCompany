@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieRentalCompany.Constante.Menssagen.Business;
 using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
@@ -40,7 +41,7 @@ namespace MovieRentalCompany.Controllers
                 return Ok(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieAddSuccess,
+                    Code = CodesMenssage.MovieAddSuccess,
                     Description = "Filme registrado com sucesso.",
                     Parameters = new Movie { Name = model.Name, Category = model.Category }
                 });
@@ -49,7 +50,7 @@ namespace MovieRentalCompany.Controllers
                 return Ok(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
-                    Code = ResponseCodes.MovieErro,
+                    Code = CodesMenssage.MovieErro,
                     Description = $"Houve um erro durante a tentativa de salvar o novo filme./n detalhe: {ex.Message}",
                     Parameters = new Movie {  }
                 });
@@ -73,7 +74,7 @@ namespace MovieRentalCompany.Controllers
             if (movie is null) return BadRequest(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Error,
-                Code = ResponseCodes.MovieRemovedError,
+                Code = CodesMenssage.MovieRemovedError,
                 Description = "Esse filme nao existe"
             });
 
@@ -81,7 +82,7 @@ namespace MovieRentalCompany.Controllers
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
-                    Code = ResponseCodes.MovieRemovedError,
+                    Code = CodesMenssage.MovieRemovedError,
                     Description = $"Esse filme ja foi {(movie.IsDeleted.HasValue ? "deletado" : "alugado")}"
                 });
 
@@ -90,7 +91,7 @@ namespace MovieRentalCompany.Controllers
             return Ok(new ResponseMessageJson
              {
                     Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.MovieRemovedSuccess,
+                    Code = CodesMenssage.MovieRemovedSuccess,
                     Description = "Filme removido com sucesso."
             });
         }

@@ -1,13 +1,8 @@
 ﻿using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
-using MovieRentalCompany.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace MovieRentalCompany.Services.Service
 {
     public class CustomerServices : IServices<Customer>
@@ -18,29 +13,15 @@ namespace MovieRentalCompany.Services.Service
 
         public void Add(object entity)
         {
-            if ((Customer)entity is { Email: not null, Name: not null, IsActive: true })
-            {
-                Register((Customer)entity);
-            }
+            if ((Customer)entity is { Email: not null, Name: not null, IsActive: true }) Register((Customer)entity);
         }
 
         public List<object> GetAll(Expression<Func<Customer, bool>> condition)
-        {
-            List<object> listResponse = new List<object>();
+            => condition == null
+                 ? _repository.GetAll().ToList<object>()
+                 : _repository.GetByCondition(condition).ToList<object>();
 
-            var response = _repository.GetAll().ToList();
-            listResponse.AddRange(response);
-
-            //Refatorar o codigo
-            if (condition == null) return listResponse;
-
-            var result = new List<object>();
-            result.AddRange(_repository.GetByCondition(condition));
-
-            return result;
-        }
-
-        public Customer GetByEmail(string email) =>
+        public Customer? GetByEmail(string email) =>
             _repository.GetByCondition(customers => customers.Email == email)?.FirstOrDefault();
 
         public Customer GetById(int id) => _repository.GetById(id);
@@ -50,7 +31,8 @@ namespace MovieRentalCompany.Services.Service
 
         public void Remove(int id)
         {
-            var customer = _repository.GetById(id);
+            var customer = _repository.GetById(id) ?? throw new Exception("Error, objeto não encontrado");
+
             customer.IsActive = false;
             _repository.Update(customer);
         }

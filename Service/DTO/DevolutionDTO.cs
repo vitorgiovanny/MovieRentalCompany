@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieRentalCompany.Domain.DTOs
+namespace Services.Domain.DTOs
 {
     public class DevolutionDTO
     {

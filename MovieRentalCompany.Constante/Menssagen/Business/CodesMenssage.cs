@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieRentalCompany.Domain.Models
+namespace MovieRentalCompany.Constante.Menssagen.Business
 {
-    public static class ResponseCodes
+    public static class CodesMenssage
     {
         public const string MovieLate = "01";
         public const string MovieRented = "02";

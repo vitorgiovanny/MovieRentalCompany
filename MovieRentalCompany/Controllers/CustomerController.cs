@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieRentalCompany.Constante.Menssagen.Business;
 using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Domain.Models;
-using MovieRentalCompany.Infrastructure.Database.Context;
 using MovieRentalCompany.ViewModel;
 
 namespace MovieRentalCompany.Controllers
@@ -36,7 +36,7 @@ namespace MovieRentalCompany.Controllers
                 return Ok(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Success,
-                    Code = ResponseCodes.CustomerSuccess,
+                    Code = CodesMenssage.CustomerSuccess,
                     Description = "Bem vindo, registrado com sucesso."
                 });
 
@@ -45,7 +45,7 @@ namespace MovieRentalCompany.Controllers
             return BadRequest(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Error,
-                Code = ResponseCodes.CustomerError,
+                Code = CodesMenssage.CustomerError,
                 Description = "Esse usuario já tem cadastro aqui"
             });
         }

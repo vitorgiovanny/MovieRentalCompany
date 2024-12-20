@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieRentalCompany.Constante.Menssagen.Business;
 using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Services;
@@ -36,7 +37,7 @@ namespace MovieRentalCompany.Controllers
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
-                    Code = ResponseCodes.MovieIsAlreadyRented,
+                    Code = CodesMenssage.MovieIsAlreadyRented,
                     Description = "O Filme já está Locado"
                 });
             }
@@ -46,7 +47,7 @@ namespace MovieRentalCompany.Controllers
                 return BadRequest(new ResponseMessageJson
                 {
                     Type = ResponseMessageJson.Error,
-                    Code = ResponseCodes.MovieIsAlreadyRented,
+                    Code = CodesMenssage.MovieIsAlreadyRented,
                     Description = "O Filme já está removido"
                 });
             }
@@ -58,7 +59,7 @@ namespace MovieRentalCompany.Controllers
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
-                Code = ResponseCodes.MovieRented,
+                Code = CodesMenssage.MovieRented,
                 Description = "O Filme Locado",
                 Parameters = new MovieRentalViewModel
                 {
@@ -84,7 +85,7 @@ namespace MovieRentalCompany.Controllers
             return Ok(new ResponseMessageJson
             {
                 Type = ResponseMessageJson.Success,
-                Code = ResponseCodes.MovieDevolutionSuccess,
+                Code = CodesMenssage.MovieDevolutionSuccess,
                 Description = movieStore.PrevisionDevolution < movieStore.Devolution ? "Obrigado, volte sempre." : "Filme Alocado Atrasado, sera gerado Multa"
             });
         }
@@ -103,7 +104,7 @@ namespace MovieRentalCompany.Controllers
            return Ok(new ResponseMessageJson
            {
                 Type = ResponseMessageJson.Success,
-                Code = ResponseCodes.MovieRentalCanceledSuccess,
+                Code = CodesMenssage.MovieRentalCanceledSuccess,
                 Description = "Filme cancelado"
             });
         }

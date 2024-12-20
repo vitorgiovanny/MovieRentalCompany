@@ -1,5 +1,4 @@
-﻿using MovieRentalCompany.Domain.DTOs;
-using MovieRentalCompany.Domain.Entities;
+﻿using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Interfaces.Repositories;
 using MovieRentalCompany.Domain.Interfaces.Services;
 using MovieRentalCompany.Infrastructure.Repositories;
