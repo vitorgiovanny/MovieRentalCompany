@@ -3,7 +3,6 @@ using MovieRentalCompany.Constante.Menssagen.Business;
 using MovieRentalCompany.Domain.Entities;
 using MovieRentalCompany.Domain.Entities.ComplexType;
 using MovieRentalCompany.Domain.Interfaces.Services;
-using MovieRentalCompany.Domain.Models;
 using MovieRentalCompany.ViewModel;
 
 namespace MovieRentalCompany.Controllers

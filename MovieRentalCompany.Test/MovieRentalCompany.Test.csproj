@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Traits\**" />
+    <EmbeddedResource Remove="Traits\**" />
+    <None Remove="Traits\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
     <PackageReference Include="NUnitTestAdapter" Version="2.3.0" />
     <PackageReference Include="xunit.assert" Version="2.4.1" />
@@ -20,10 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MovieRentalCompany.Domain\MovieRentalCompany.Domain.csproj" />
     <ProjectReference Include="..\MovieRentalCompany\MovieRentalCompany.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Traits\" />
   </ItemGroup>
 
 </Project>
